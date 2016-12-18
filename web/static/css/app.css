@@ -1,0 +1,42 @@
+/* This file is for your main application css. */
+body {
+  width: 100%;
+}
+
+.content {
+  width: 800px;
+}
+
+.search-block {
+  margin-top: 30px;
+  width: 100%;
+  padding: 20px;
+  background-color: #EBEBEB;
+}
+
+.search-textarea {
+  width: 100%;
+  margin: 5px auto;
+  display: block;
+}
+
+.checkbox-label {
+  margin-left: 5px;
+}
+
+.btn-block {
+  margin-top: 2px;
+}
+
+.block {
+  display: block;
+}
+
+.result-table-container {
+  margin-top: 50px;
+  width: 100%;
+}
+
+.result-table {
+  margin-top: 8px;
+}

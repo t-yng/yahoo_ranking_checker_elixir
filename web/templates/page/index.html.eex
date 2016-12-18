@@ -1,0 +1,45 @@
+<div class="content center-block">
+  <div class="search-block">
+    <label for="upload-csv" class="btn btn-primary">
+      CSVアップロード
+      <input id="upload-csv" type="file" style="display: none;">
+    </label>
+    <textarea class="search-textarea" cols="30" rows="10" placeholder="例: スマートフォン 手帳型, http://store.shopping.yahoo.co.jp/mkcorporation8/case-7plus-278.html"></textarea>
+    <div class="search-block-footer">
+      <div style="width: 100%">
+        <input type="checkbox" id="checkbox"><label for="checkbox" class="checkbox-label">起動時に検索条件を表示</label>
+      </div>
+      <div class="btn-block">
+        <button type="button" class="btn btn-primary">検索条件を保存</button>
+        <button type="button" class="btn btn-primary">検索条件を表示</button>
+        <button id="search-ranking-btn" class="btn btn-primary pull-right">検索</button>
+      </div>
+    </div>
+  </div>
+  <div id="result-table-container" class="result-table-container" ></div>
+</div>
+
+<script id="table" type="text/x-handlebars-template">
+    <button id="output-csv" type="button" class="btn btn-primary">CSVダウンロード</button>
+    <table class="table table-bordered result-table">
+      <thead>
+        <tr>
+          <th>キーワード</th>
+          <th>商品ページ</th>
+          <th>画像</th>
+          <th>順位</th>
+        </tr>
+      </thead>
+      <tbody class="result-table">
+        {{#each result}}
+        <tr>
+          <td>{{keywords}}</td>
+          <td><a href="{{page_url}}">{{page_url}}</a></td>
+          <td><img src="{{image}}" alt="画像" style="width: 50px; height: 50px;"></td>
+          <td>{{#showRankText rank}}{{/showRankText}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</script>
