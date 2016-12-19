@@ -40,3 +40,22 @@ body {
 .result-table {
   margin-top: 8px;
 }
+
+.searching-modal {
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.8;
+}
+
+.searching-text {
+  font-size: 50px;
+  color: white;
+  position: relative;
+  top: 17px;
+  text-align: center;
+}

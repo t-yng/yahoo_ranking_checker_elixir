@@ -12,11 +12,20 @@
       <div class="btn-block">
         <button type="button" class="btn btn-primary">検索条件を保存</button>
         <button type="button" class="btn btn-primary">検索条件を表示</button>
-        <button id="search-ranking-btn" class="btn btn-primary pull-right">検索</button>
+        <button id="search-ranking-btn" class="btn btn-primary pull-right" data-toggle="modal" data-target="#loading-modal">検索</button>
       </div>
     </div>
   </div>
   <div id="result-table-container" class="result-table-container" ></div>
+</div>
+
+<div class="searching-modal">
+  <div class="pacman">
+    <div class="pacman-top"></div>
+    <div class="pacman-bottom"></div>
+    <div class="feed"></div>
+  </div>
+  <p class="searching-text">検索中...</p>
 </div>
 
 <script id="table" type="text/x-handlebars-template">

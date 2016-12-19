@@ -13,6 +13,11 @@ $('#upload-csv').on('change', e => {
 })
 
 $('#search-ranking-btn').on('click', () => {
+  // 検索中のモーダルを表示
+  const showModalTimer = setTimeout(function () {
+    $('.searching-modal').show()
+  }, 500)
+
   const text = $('.search-textarea').val()
   const data = {data: createJsonFromCsv(text)}
 
@@ -27,7 +32,12 @@ $('#search-ranking-btn').on('click', () => {
   })
   .then(res => res.json())
   .then(json => {
+    // 検索結果をテーブルに表示
     showSearchResultTable(json)
+
+    // モーダルを表示する指定時間より早く検索結果を取得した場合は、モーダルを表示しない
+    clearTimeout(showModalTimer)
+    $('.searching-modal').hide()
   })
 })
 
