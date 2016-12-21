@@ -59,3 +59,12 @@ body {
   top: 17px;
   text-align: center;
 }
+
+.rank-colomn {
+  width: 80px;
+}
+
+.item-image {
+  width: 100px;
+  height: 100px;
+}

@@ -35,6 +35,14 @@ $('#search-ranking-btn').on('click', () => {
     // 検索結果をテーブルに表示
     showSearchResultTable(json)
 
+    // CSVを出力するためのテーブルを生成
+    createExportTable(json)
+
+    // CSV出力の処理を追加
+    $('#export-csv').on('click', function () {
+      ExcellentExport.csv(this, 'export-table')
+    })
+
     // モーダルを表示する指定時間より早く検索結果を取得した場合は、モーダルを表示しない
     clearTimeout(showModalTimer)
     $('.searching-modal').hide()
@@ -44,12 +52,19 @@ $('#search-ranking-btn').on('click', () => {
 Handlebars.registerHelper('showRankText', cond => cond > 0 ? `${cond}位` : 'ランク外')
 
 function showSearchResultTable (json) {
-  const source = $('#table').html()
+  const source = $('#result-table-template').html()
   const template = Handlebars.compile(source)
   const html = template(json)
 
   $('#result-table-container').html(html)
-  // $('#result-table-container').slideToggle()
+}
+
+function createExportTable (json) {
+  const source = $('#export-table-template').html()
+  const template = Handlebars.compile(source)
+  const html = template(json)
+
+  $('#export-table-container').html(html)
 }
 
 /**
