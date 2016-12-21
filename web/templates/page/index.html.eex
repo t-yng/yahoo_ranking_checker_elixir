@@ -17,6 +17,7 @@
     </div>
   </div>
   <div id="result-table-container" class="result-table-container" ></div>
+  <div id="export-table-container"></div>
 </div>
 
 <div class="searching-modal">
@@ -28,14 +29,37 @@
   <p class="searching-text">検索中...</p>
 </div>
 
-<script id="table" type="text/x-handlebars-template">
-    <button id="output-csv" type="button" class="btn btn-primary">CSVダウンロード</button>
+<script id="result-table-template" type="text/x-handlebars-template">
+    <a id="export-csv" class="btn btn-primary" download="result.csv" href="#">CSVダウンロード</a>
     <table class="table table-bordered result-table">
       <thead>
         <tr>
           <th>キーワード</th>
           <th>商品ページ</th>
-          <th>画像</th>
+          <th>商品画像</th>
+          <th class="rank-colomn">順位</th>
+        </tr>
+      </thead>
+      <tbody class="result-table">
+        {{#each result}}
+        <tr>
+          <td>{{keywords}}</td>
+          <td><a href="{{page_url}}">{{page_url}}</a></td>
+          <td><span style="display:none;">{{image}}</span><img src="{{image}}" alt="商品画像" class="item-image"></td>
+          <td>{{#showRankText rank}}{{/showRankText}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</script>
+
+<script id="export-table-template" type="text/x-handlebars-template">
+    <table id="export-table" class="table table-bordered result-table" style="display: none;">
+      <thead>
+        <tr>
+          <th>キーワード</th>
+          <th>商品ページ</th>
           <th>順位</th>
         </tr>
       </thead>
@@ -44,7 +68,6 @@
         <tr>
           <td>{{keywords}}</td>
           <td><a href="{{page_url}}">{{page_url}}</a></td>
-          <td><img src="{{image}}" alt="画像" style="width: 50px; height: 50px;"></td>
           <td>{{#showRankText rank}}{{/showRankText}}</td>
         </tr>
         {{/each}}
