@@ -1,7 +1,7 @@
 defmodule YahooRankinkingChecker.YahooPageRankingController do
   use YahooRankinkingChecker.Web, :controller
 
-  @base_search_url "http://search.shopping.yahoo.co.jp/search?first=1&tab_ex=commerce&fr=shp-prop&oq=&aq=&mcr=9f06874e320857b7b601f34c27ca0c48&ts=1481619043&cid=&uIv=on&used=0&pf=&pt=&seller=0&mm_Check=&sc_i=shp_pc_top_searchBox"
+  @base_search_url "http://search.shopping.yahoo.co.jp/search?first=1&tab_ex=commerce&fr=shp-prop&oq=&aq=&mcr=9f06874e320857b7b601f34c27ca0c48&ts=1481619043&cid=&uIv=on&used=0&pf=&pt=&seller=0&mm_Check=&sc_i=shp_pc_top_searchBox&n=100"
 
   def index(conn, params) do
     result = params["data"]
