@@ -17,7 +17,7 @@
 
   <body>
     <header class="header">
-      <h1 class="text-center">Yahoo! 順位チェッカー</h1>
+      <h1 class="text-center" ><span style="color: #e81d1d;">Yahoo!</span> 順位チェッカー 簡易版</h1>
     </header>
 
     <div class="container">

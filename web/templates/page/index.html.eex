@@ -7,11 +7,11 @@
     <textarea class="search-textarea" cols="30" rows="10" placeholder="例: スマートフォン 手帳型, http://store.shopping.yahoo.co.jp/mkcorporation8/case-7plus-278.html"></textarea>
     <div class="search-block-footer">
       <div style="width: 100%">
-        <input type="checkbox" id="checkbox"><label for="checkbox" class="checkbox-label">起動時に検索条件を表示</label>
+        <input id="startup-config" type="checkbox"><label for="startup-config" class="checkbox-label">表示時に検索条件を表示</label>
       </div>
       <div class="btn-block">
-        <button type="button" class="btn btn-primary">検索条件を保存</button>
-        <button type="button" class="btn btn-primary">検索条件を表示</button>
+        <button id="save-search-text" type="button" class="btn btn-primary">検索条件を保存</button>
+        <button id="append-search-text" type="button" class="btn btn-primary">検索条件を表示</button>
         <button id="search-ranking-btn" class="btn btn-primary pull-right" data-toggle="modal" data-target="#loading-modal">検索</button>
       </div>
     </div>

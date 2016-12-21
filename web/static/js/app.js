@@ -1,4 +1,16 @@
-/* global $, Handlebars */
+/* global $, Handlebars, localStorage */
+
+const SEARCH_TEXT_KEY = 'search-text'
+const STARTUP_CONFIG_KEY = 'startup-config'
+
+$(function () {
+  const isStartupShow = JSON.parse(localStorage.getItem(STARTUP_CONFIG_KEY)) || false
+  $('#startup-config').prop('checked', isStartupShow)
+
+  if (isStartupShow) {
+    appendSearchText($('.search-textarea'))
+  }
+})
 
 $('#upload-csv').on('change', e => {
   const file = e.target.files[0]
@@ -12,6 +24,28 @@ $('#upload-csv').on('change', e => {
   reader.readAsText(file)
 })
 
+// テキストエリアに表示された検索条件を保存
+$('#save-search-text').on('click', function () {
+  const searchText = getSearchText()
+  localStorage.setItem(SEARCH_TEXT_KEY, searchText)
+  alert(`テキストエリア上のの検索条件を保存しました。\n\n${searchText}`)
+})
+
+// 保存された検索条件を表示
+$('#append-search-text').on('click', function () {
+  appendSearchText($('.search-textarea'))
+})
+
+// ページが表示される時に検索条件が常に表示される設定の追加
+$('#startup-config').change(function () {
+  if ($(this).is(':checked')) {
+    localStorage.setItem(STARTUP_CONFIG_KEY, 'true')
+  } else {
+    localStorage.setItem(STARTUP_CONFIG_KEY, 'false')
+  }
+})
+
+// 検索キーワードと商品ページURLから商品ページの掲載順位を検索
 $('#search-ranking-btn').on('click', () => {
   // 検索中のモーダルを表示
   const showModalTimer = setTimeout(function () {
@@ -50,6 +84,22 @@ $('#search-ranking-btn').on('click', () => {
 })
 
 Handlebars.registerHelper('showRankText', cond => cond > 0 ? `${cond}位` : 'ランク外')
+
+function getSearchText () {
+  return $('.search-textarea').val()
+}
+
+function appendSearchText ($element) {
+  const searchText = localStorage.getItem(SEARCH_TEXT_KEY) || ''
+  const textareaText = getSearchText()
+
+  // カーソルの位置に関係なく一番最後に保存された検索条件を追記
+  const lines = textareaText.split("\n").filter(str => str.length > 0)
+  lines.push(searchText)
+  const text = lines.join("\n")
+
+  $($element).val(text)
+}
 
 function showSearchResultTable (json) {
   const source = $('#result-table-template').html()
