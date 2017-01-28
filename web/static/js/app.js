@@ -1,4 +1,9 @@
-/* global $, Handlebars, localStorage */
+/* global FileReader, fetch, localStorage */
+
+import $ from 'jquery'
+import Handlebars from 'handlebars'
+// TODO: Could not load module エラーが発生して、importが出来ないので、原因を見つけて解決する
+// import ExcellentExport from 'excellentexport'
 
 const SEARCH_TEXT_KEY = 'search-text'
 const STARTUP_CONFIG_KEY = 'startup-config'
@@ -74,7 +79,8 @@ $('#search-ranking-btn').on('click', () => {
 
     // CSV出力の処理を追加
     $('#export-csv').on('click', function () {
-      ExcellentExport.csv(this, 'export-table')
+      // ExcellentExport.csv(this, 'export-table')
+      ExcellentExport.csv(this, 'export-table', 'Yahoo商品ページ検索結果')
     })
 
     // モーダルを表示する指定時間より早く検索結果を取得した場合は、モーダルを表示しない
