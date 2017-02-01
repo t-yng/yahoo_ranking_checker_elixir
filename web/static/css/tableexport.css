@@ -1,0 +1,30 @@
+.xls:before,
+.csv:before,
+.txt:before,
+.xlsx:before {
+  margin-right: 10px;
+  padding: 11px 15px 12px;
+}
+
+.xls:before,
+.csv:before,
+.txt:before,
+.xlsx:before {
+  content: "";
+}
+
+.xlsx:before {
+  background: url("https://cdnjs.cloudflare.com/ajax/libs/TableExport/3.3.5/img/xlsx.svg") center no-repeat #006400;
+}
+
+.xls:before {
+  background: url("https://cdnjs.cloudflare.com/ajax/libs/TableExport/3.3.5/img/xls.svg") center no-repeat green;
+}
+
+.csv:before {
+  background: url("https://cdnjs.cloudflare.com/ajax/libs/TableExport/3.3.5/img/csv.svg") center no-repeat #00f;
+}
+
+.txt:before {
+  background: url("https://cdnjs.cloudflare.com/ajax/libs/TableExport/3.3.5/img/txt.svg") center no-repeat purple;
+}
