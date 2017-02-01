@@ -2,12 +2,14 @@
 
 import $ from 'jquery'
 import Handlebars from 'handlebars'
+import 'tableexport'
 // TODO: Could not load module エラーが発生して、importが出来ないので、原因を見つけて解決する
 // import ExcellentExport from 'excellentexport'
 
 const SEARCH_TEXT_KEY = 'search-text'
 const STARTUP_CONFIG_KEY = 'startup-config'
 
+// 「表示に検索条件を表示」にチェックが入っている時に、保存された検索条件を挿入
 $(function () {
   const isStartupShow = JSON.parse(localStorage.getItem(STARTUP_CONFIG_KEY)) || false
   $('#startup-config').prop('checked', isStartupShow)
@@ -17,6 +19,7 @@ $(function () {
   }
 })
 
+// csvをアップロードして、検索条件の文字列を挿入
 $('#upload-csv').on('change', e => {
   const file = e.target.files[0]
   const reader = new FileReader()
@@ -33,7 +36,7 @@ $('#upload-csv').on('change', e => {
 $('#save-search-text').on('click', function () {
   const searchText = getSearchText()
   localStorage.setItem(SEARCH_TEXT_KEY, searchText)
-  alert(`テキストエリア上のの検索条件を保存しました。\n\n${searchText}`)
+  window.alert(`テキストエリア上のの検索条件を保存しました。\n\n${searchText}`)
 })
 
 // 保存された検索条件を表示
@@ -74,13 +77,13 @@ $('#search-ranking-btn').on('click', () => {
     // 検索結果をテーブルに表示
     showSearchResultTable(json)
 
-    // CSVを出力するためのテーブルを生成
-    createExportTable(json)
-
-    // CSV出力の処理を追加
-    $('#export-csv').on('click', function () {
-      // ExcellentExport.csv(this, 'export-table')
-      ExcellentExport.csv(this, 'export-table', 'Yahoo商品ページ検索結果')
+    // 検索結果のテーブルをxlsx, csv形式でダウンロードできるようにする
+    $('#ranking-table').tableExport({
+      formats: ['xlsx', 'csv'],
+      fileName: 'Yahoo商品ページの順位検索結果',
+      bootstrap: true,
+      position: 'top',
+      ignoreCols: 2
     })
 
     // モーダルを表示する指定時間より早く検索結果を取得した場合は、モーダルを表示しない
@@ -107,6 +110,10 @@ function appendSearchText ($element) {
   $($element).val(text)
 }
 
+/**
+ * 検索結果を元にランキングのテーブルを生成
+ * @param {string} json 商品ページの順位検索結果
+ */
 function showSearchResultTable (json) {
   const source = $('#result-table-template').html()
   const template = Handlebars.compile(source)
@@ -115,28 +122,19 @@ function showSearchResultTable (json) {
   $('#result-table-container').html(html)
 }
 
-function createExportTable (json) {
-  const source = $('#export-table-template').html()
-  const template = Handlebars.compile(source)
-  const html = template(json)
-
-  $('#export-table-container').html(html)
-}
-
 /**
  * csv形式の文字列をjson形式に変換
- * @type {string} text csv形式の文字列
+ * @param {string} csv csv形式の文字列
  * @return {string} json形式の文字列
  */
-function createJsonFromCsv (text) {
-  console.log(text.split(/\r\n|\r|\n/))
-  return text.split(/\r\n|\r|\n/)
+function createJsonFromCsv (csv) {
+  return csv.split(/\r\n|\r|\n/)
     .filter(line => line.length > 0)
     .map(line => {
       const columns = line.split(',')
       const keywords = columns[0].trim()
-      const pageUrl = columns[1].trim()
+      const page_url = columns[1].trim()
 
-      return {keywords, page_url: pageUrl}
+      return {keywords, page_url}
     })
 }

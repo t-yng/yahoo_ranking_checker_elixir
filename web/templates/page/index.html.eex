@@ -30,8 +30,7 @@
 </div>
 
 <script id="result-table-template" type="text/x-handlebars-template">
-    <a id="export-csv" class="btn btn-primary" download="result.csv" href="#">CSVダウンロード</a>
-    <table class="table table-bordered result-table">
+    <table id="ranking-table" class="table table-bordered result-table">
       <thead>
         <tr>
           <th>キーワード</th>
@@ -46,28 +45,6 @@
           <td>{{keywords}}</td>
           <td><a href="{{page_url}}">{{page_url}}</a></td>
           <td><span style="display:none;">{{image}}</span><img src="{{image}}" alt="商品画像" class="item-image"></td>
-          <td>{{#showRankText rank}}{{/showRankText}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-</script>
-
-<script id="export-table-template" type="text/x-handlebars-template">
-    <table id="export-table" class="table table-bordered result-table" style="display: none;">
-      <thead>
-        <tr>
-          <th>キーワード</th>
-          <th>商品ページ</th>
-          <th>順位</th>
-        </tr>
-      </thead>
-      <tbody class="result-table">
-        {{#each result}}
-        <tr>
-          <td>{{keywords}}</td>
-          <td><a href="{{page_url}}">{{page_url}}</a></td>
           <td>{{#showRankText rank}}{{/showRankText}}</td>
         </tr>
         {{/each}}
