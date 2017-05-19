@@ -44,15 +44,20 @@ defmodule YahooRankinkingChecker.YahooPageRankingController do
   end
 
   defp extract_pageurl(item) do
-    Floki.find(item, ".elName a")
+    url = Floki.find(item, ".elName a")
     |> Floki.attribute("href")
+    |> Enum.at(0)
+
+    IO.inspect url
+
+    remove_url_query(url)
   end
 
-  defp url_match?([], page_url) do
-    false
+  defp remove_url_query(url) do
+    Regex.replace(~r/\?.*/, url, "")
   end
 
-  defp url_match?([url], page_url) do
+  defp url_match?(url, page_url) do
     url == page_url
   end
 
