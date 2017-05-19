@@ -61,9 +61,19 @@ $('#search-ranking-btn').on('click', () => {
   }, 500)
 
   const text = $('.search-textarea').val()
-  const data = {data: createJsonFromCsv(text)}
+
+  let data = {}
+  try {
+    data = {data: createJsonFromCsv(text)}
+  } catch (error) {
+    window.alert(error.message)
+    clearTimeout(showModalTimer)
+    $('.searching-modal').hide()
+    return false
+  }
 
   // サーバーへ検索リクエストを送信
+  $.ajax()
   fetch('/api/ranking', {
     headers: {
       'Accept': 'application/json',
@@ -72,7 +82,14 @@ $('#search-ranking-btn').on('click', () => {
     method: 'POST',
     body: JSON.stringify(data)
   })
-  .then(res => res.json())
+  .then(res => {
+    if(!res.ok) {
+      if(res.status === 500) {
+        throw new Error("サーバー側でエラーが発生しました。\n 管理者に問い合わせをお願いします。")
+      }
+    }
+    return res.json()
+  })
   .then(json => {
     // 検索結果をテーブルに表示
     showSearchResultTable(json)
@@ -89,6 +106,11 @@ $('#search-ranking-btn').on('click', () => {
     // モーダルを表示する指定時間より早く検索結果を取得した場合は、モーダルを表示しない
     clearTimeout(showModalTimer)
     $('.searching-modal').hide()
+  })
+  .catch(error => {
+    clearTimeout(showModalTimer)
+    $('.searching-modal').hide()
+    window.alert(error.message)
   })
 })
 
@@ -128,13 +150,18 @@ function showSearchResultTable (json) {
  * @return {string} json形式の文字列
  */
 function createJsonFromCsv (csv) {
-  return csv.split(/\r\n|\r|\n/)
-    .filter(line => line.length > 0)
-    .map(line => {
-      const columns = line.split(',')
-      const keywords = columns[0].trim()
-      const page_url = columns[1].trim()
+  try {
+    const json = csv.split(/\r\n|\r|\n/)
+      .filter(line => line.length > 0)
+      .map(line => {
+        const columns = line.split(',')
+        const keywords = columns[0].trim()
+        const page_url = columns[1].trim()
 
-      return {keywords, page_url}
-    })
+        return {keywords, page_url}
+      })
+    return json
+  } catch (error) {
+    throw new Error('検索テキストのフォーマットが正しくありません。')
+  }
 }
