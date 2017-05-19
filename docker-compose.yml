@@ -1,0 +1,5 @@
+app:
+  build: .
+  container_name: yahoo_ranking_checker
+  ports:
+    - "4000:4000"
