@@ -16,7 +16,7 @@ defmodule YahooRankinkingChecker.YahooPageRankingController do
 
     # キーワード検索から商品ページ一覧を取得
     HTTPoison.start
-    response = HTTPoison.get!(url)
+    response = HTTPoison.get!(url, [], [follow_redirect: true])
     %HTTPoison.Response{status_code: 200, body: body} = response
 
     # 目的の商品ページの掲載順位を取得
