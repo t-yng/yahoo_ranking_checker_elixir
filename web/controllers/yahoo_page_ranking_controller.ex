@@ -22,7 +22,7 @@ defmodule YahooRankinkingChecker.YahooPageRankingController do
     # 目的の商品ページの掲載順位を取得
     index = Floki.find(body, ".mdSearchList li .elItem")
            |> Enum.map(&extract_pageurl(&1))
-           |> Enum.find_index(&url_match?(&1, page_url))
+           |> Enum.find_index(&page_match?(&1, page_url))
 
     rank = case index do
       nil -> -1
@@ -44,21 +44,16 @@ defmodule YahooRankinkingChecker.YahooPageRankingController do
   end
 
   defp extract_pageurl(item) do
-    url = Floki.find(item, ".elName a")
+    Floki.find(item, ".elName a")
     |> Floki.attribute("href")
     |> Enum.at(0)
-
-    IO.inspect url
-
-    remove_url_query(url)
   end
 
-  defp remove_url_query(url) do
-    Regex.replace(~r/\?.*/, url, "")
-  end
+  defp page_match?(url, page_url) do
+    uri = URI.parse(url)
+    page_uri = URI.parse(page_url)
 
-  defp url_match?(url, page_url) do
-    url == page_url
+    uri.host <> uri.path == page_uri.host <> page_uri.path
   end
 
   defp search_url(keywords) do
