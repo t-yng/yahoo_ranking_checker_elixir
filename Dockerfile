@@ -1,6 +1,8 @@
 FROM ubuntu:latest
 
 # Elixir requires UTF-8
+RUN apt-get clean && apt-get update
+RUN apt-get install locales
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -38,7 +40,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && sudo apt-g
 RUN mkdir -p /usr/local/phoenix/app
 WORKDIR /usr/local/phoenix/app
 
-# アプリケーションのルートディレクトリを設定	
+# アプリケーションのルートディレクトリを設定
 ENV PHOENIX_APP_NAME yahoo_ranking_checker
 ENV PHOENIX_APP_PORT 4000
 ENV PHOENIX_APP_ROOT /usr/local/src/phoenix/app/${PHOENIX_APP_NAME}
@@ -59,4 +61,3 @@ RUN npm install -g brunch
 
 # Run Phoenix
 CMD ["/bin/bash", "-c", "mix phoenix.server"]
-
