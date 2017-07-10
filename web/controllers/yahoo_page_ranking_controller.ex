@@ -36,7 +36,7 @@ defmodule YahooRankinkingChecker.YahooPageRankingController do
   end
 
   defp extract_item_image(page_url) do
-    response = HTTPoison.get!(page_url)
+    response = HTTPoison.get!(page_url, [], [follow_redirect: true])
     %HTTPoison.Response{status_code: 200, body: body} = response
 
     Floki.find(body, "#itmbasic .elNew img")
